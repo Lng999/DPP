@@ -71,7 +71,7 @@ json invite::to_json_impl(bool with_id) const {
 	j["max_age"] = max_age;
 	j["max_uses"] = max_uses;
 	if (target_user_id > 0) {
-		j["target_user"] = target_user_id;
+		j["target_user_id"] = target_user_id;
 	}
 	if (target_type != itt_none) {
 		j["target_type"] = target_type;

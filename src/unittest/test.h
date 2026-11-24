@@ -150,6 +150,7 @@ DPP_TEST(URLENC, "URL encoding", tf_offline);
 DPP_TEST(BASE64ENC, "Base 64 encoding", tf_offline);
 DPP_TEST(ETF_COMPRESSED_SHORT, "etf_parser: compressed term shorter than its declared size", tf_offline);
 DPP_TEST(DAVE_BINARY_HEADER, "dave_binary_header_t: seq and transition id with the high bit set", tf_offline);
+DPP_TEST(INVITE_TARGET_USER, "invite::to_json: target_user_id", tf_offline);
 DPP_TEST(COMPARISON, "manged object comparison", tf_offline);
 DPP_TEST(CHANNELCACHE, "find_channel()", tf_online);
 DPP_TEST(CHANNELTYPES, "channel type flags", tf_online);

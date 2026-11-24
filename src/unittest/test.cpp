@@ -308,6 +308,18 @@ Markdown lol \\|\\|spoiler\\|\\| \\~\\~strikethrough\\~\\~ \\`small \\*code\\* b
 			);
 		}
 
+		set_test(INVITE_TARGET_USER, false);
+		{
+			/* Create Channel Invite takes the streaming user as a snowflake named target_user_id */
+			dpp::invite inv;
+			inv.set_target_type(dpp::itt_stream).set_target_user_id(189759562910400512);
+			json j = inv.to_json();
+			set_test(INVITE_TARGET_USER,
+				j.contains("target_user_id") && j["target_user_id"] == "189759562910400512" &&
+				!j.contains("target_user") && j["target_type"] == dpp::itt_stream
+			);
+		}
+
 		dpp::http_connect_info hci;
 		set_test(HOSTINFO, false);
 

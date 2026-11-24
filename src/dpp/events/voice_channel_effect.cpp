@@ -35,19 +35,20 @@ voice_channel_effect& voice_channel_effect::fill_from_json_impl(nlohmann::json* 
 	set_snowflake_not_null(j, "channel_id", channel_id);
 	set_snowflake_not_null(j, "guild_id", guild_id);
 	set_snowflake_not_null(j, "user_id", user_id);
-	emoji.fill_from_json(&j->at("emoji"));
-	if (int8_not_null(j, "animation_type")) {
-		set_int8_not_null(j, "animation_type", animation_type);
+	if (auto e = j->find("emoji"); e != j->end() && !e->is_null()) {
+		emoji.fill_from_json(&(*e));
 	}
-	if (int8_not_null(j, "animation_id")) {
-		set_int32_not_null(j, "animation_id", animation_id);
+	set_int8_not_null(j, "animation_type", animation_type);
+	set_int32_not_null(j, "animation_id", animation_id);
+	/* Custom sounds have a snowflake id, Discord's default sounds have an integer id */
+	if (auto s = j->find("sound_id"); s != j->end()) {
+		if (s->is_number_integer()) {
+			sound_id = s->get<uint64_t>();
+		} else {
+			set_snowflake_not_null(j, "sound_id", sound_id);
+		}
 	}
-	if (int8_not_null(j, "sound_id")) {
-		set_snowflake_not_null(j, "sound_id", sound_id);
-	}
-	if (int8_not_null(j, "sound_volume")) {
-		set_double_not_null(j, "sound_volume", sound_volume);
-	}
+	set_double_not_null(j, "sound_volume", sound_volume);
 	return *this;
 }
 

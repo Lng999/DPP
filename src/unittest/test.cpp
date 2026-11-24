@@ -308,6 +308,40 @@ Markdown lol \\|\\|spoiler\\|\\| \\~\\~strikethrough\\~\\~ \\`small \\*code\\* b
 			);
 		}
 
+		set_test(VOICE_CHANNEL_EFFECT, false);
+		{
+			/* Soundboard effect with a custom sound (snowflake id) at half volume */
+			json custom_sound{
+				{"channel_id", "1088510058284990888"}, {"guild_id", "825407338755653642"}, {"user_id", "189759562910400512"},
+				{"sound_id", "1106714396018884649"}, {"sound_volume", 0.5}
+			};
+			dpp::voice_channel_effect custom;
+			bool custom_ok = false;
+			try {
+				custom.fill_from_json(&custom_sound);
+				custom_ok = custom.sound_id == dpp::snowflake(1106714396018884649) && custom.sound_volume == 0.5;
+			}
+			catch (const std::exception&) {
+			}
+
+			/* Emoji effect with an animation id above 255, and a default sound sent as an integer id */
+			json default_sound{
+				{"channel_id", "1088510058284990888"}, {"guild_id", "825407338755653642"}, {"user_id", "189759562910400512"},
+				{"emoji", {{"id", nullptr}, {"name", dpp::unicode_emoji::smile}}}, {"animation_type", 1}, {"animation_id", 300},
+				{"sound_id", 3}, {"sound_volume", 1.0}
+			};
+			dpp::voice_channel_effect builtin;
+			bool builtin_ok = false;
+			try {
+				builtin.fill_from_json(&default_sound);
+				builtin_ok = builtin.sound_id == dpp::snowflake(3) && builtin.sound_volume == 1.0 &&
+					builtin.animation_type == dpp::at_basic && builtin.animation_id == 300 && builtin.emoji.name == dpp::unicode_emoji::smile;
+			}
+			catch (const std::exception&) {
+			}
+			set_test(VOICE_CHANNEL_EFFECT, custom_ok && builtin_ok);
+		}
+
 		dpp::http_connect_info hci;
 		set_test(HOSTINFO, false);
 

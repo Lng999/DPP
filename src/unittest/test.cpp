@@ -308,6 +308,24 @@ Markdown lol \\|\\|spoiler\\|\\| \\~\\~strikethrough\\~\\~ \\`small \\*code\\* b
 			);
 		}
 
+		set_test(SKU_FLAGS, false);
+		{
+			/* USER_SUBSCRIPTION is 1 << 8 in the Discord API */
+			json j{ {"id", "1088510058284990888"}, {"type", 5}, {"flags", 1 << 8} };
+			dpp::sku s;
+			s.fill_from_json(&j);
+			set_test(SKU_FLAGS, s.is_user_subscription() && !s.is_guild_subscription() && !s.is_available());
+		}
+
+		set_test(CHANNEL_FLAGS, false);
+		{
+			/* HIDE_MEDIA_DOWNLOAD_OPTIONS (1 << 15) together with REQUIRE_TAG (1 << 4) */
+			json j{ {"id", "1088510058284990888"}, {"flags", (1 << 15) | (1 << 4)} };
+			dpp::channel c;
+			c.fill_from_json(&j);
+			set_test(CHANNEL_FLAGS, c.is_download_options_hidden() && c.is_tag_required() && !c.is_pinned_thread());
+		}
+
 		dpp::http_connect_info hci;
 		set_test(HOSTINFO, false);
 

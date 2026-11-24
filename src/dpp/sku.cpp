@@ -40,7 +40,7 @@ sku& sku::fill_from_json_impl(nlohmann::json* j) {
 	set_string_not_null(j, "name", name);
 	set_string_not_null(j, "slug", slug);
 
-	uint8_t sku_flags = int8_not_null(j, "flags");
+	uint32_t sku_flags = int32_not_null(j, "flags");
 	if (sku_flags & (1 << 2)) {
 		flags |= sku_flags::sku_available;
 	}

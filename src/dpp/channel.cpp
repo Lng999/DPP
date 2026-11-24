@@ -368,7 +368,7 @@ channel& channel::fill_from_json_impl(json* j) {
 	uint16_t forum_layout = int16_not_null(j, "default_forum_layout");
 	this->flags |= ((forum_layout << 9) & DEFAULT_FORUM_LAYOUT_MASK);
 
-	uint8_t dflags = int8_not_null(j, "flags");
+	uint32_t dflags = int32_not_null(j, "flags");
 	this->flags |= (dflags & dc_pinned_thread) ? dpp::c_pinned_thread : 0;
 	this->flags |= (dflags & dc_require_tag) ? dpp::c_require_tag : 0;
 	this->flags |= (dflags & dc_hide_media_download_options) ? dpp::c_hide_media_download_options : 0;

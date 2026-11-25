@@ -123,7 +123,7 @@ scheduled_event& scheduled_event::fill_from_json_impl(const json* j) {
 	set_snowflake_not_null(j, "guild_id", this->guild_id);
 	set_snowflake_not_null(j, "channel_id", this->channel_id);
 	set_snowflake_not_null(j, "creator_id", this->creator_id);
-	set_snowflake_not_null(j, "creator_id", this->creator_id);
+	set_snowflake_not_null(j, "entity_id", this->entity_id);
 	set_string_not_null(j, "name", this->name);
 	set_string_not_null(j, "description", this->description);
 	if (auto it = j->find("image"); it != j->end() && !it->is_null())

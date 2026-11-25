@@ -308,6 +308,19 @@ Markdown lol \\|\\|spoiler\\|\\| \\~\\~strikethrough\\~\\~ \\`small \\*code\\* b
 			);
 		}
 
+		set_test(SCHEDULED_EVENT_ENTITY_ID, false);
+		{
+			/* A stage instance event carries the id of its stage instance in entity_id */
+			json j{
+				{"id", "1088510058284990888"}, {"guild_id", "825407338755653642"}, {"channel_id", "1106714396018884649"},
+				{"name", "stage"}, {"privacy_level", 2}, {"status", 2}, {"entity_type", 1},
+				{"entity_id", "1171183384585797702"}, {"entity_metadata", nullptr}
+			};
+			dpp::scheduled_event ev;
+			ev.fill_from_json(&j);
+			set_test(SCHEDULED_EVENT_ENTITY_ID, ev.entity_id == dpp::snowflake(1171183384585797702) && ev.entity_type == dpp::eet_stage_instance);
+		}
+
 		dpp::http_connect_info hci;
 		set_test(HOSTINFO, false);
 
